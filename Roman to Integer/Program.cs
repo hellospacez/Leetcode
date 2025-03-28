@@ -1,47 +1,51 @@
-using NUnit.Framework;
+using System;
 
-[TestFixture]
-public class Solution2Tests
-{
-    [Test]
-    public void RomanToInt_III_Returns3()
+public class Program {
+    
+ 
+    
+    
+    private static readonly int[] romanValues = new int[22];
+
+    static Program()
     {
-        // Arrange
-        Program solution = new Program();
-        string input = "III";
-        
-        // Act
-        int result = solution.RomanToInt(input);
-        
-        // Assert
-        Assert.AreEqual(result, 3); // He
+        romanValues['I' - 'C'] = 1;
+        romanValues['V' - 'C'] = 5;
+        romanValues['X' - 'C'] = 10;
+        romanValues['L' - 'C'] = 50;
+        romanValues['C' - 'C'] = 100;
+        romanValues['D' - 'C'] = 500;
+        romanValues['M' - 'C'] = 1000;
     }
 
-    [Test]
-    public void RomanToInt_LVIII_Returns58()
-    {
-        // Arrange
-        Program solution = new Program();
-        string input = "LVIII";
-        
-        // Act
-        int result = solution.RomanToInt(input);
-        
-        // Assert
-        Assert.AreEqual(58, result); // Correct assertion
+    public int RomanToInt(string s) {
+        int sum = 0, previousValue = 0;
+
+        for (int i = s.Length - 1; i >= 0; i--) {
+            int currentValue = romanValues[s[i] - 'C'];
+
+            sum += (currentValue < previousValue) ? -currentValue : currentValue;
+
+            previousValue = currentValue;
+        }
+
+        return sum;
     }
 
-    [Test]
-    public void RomanToInt_MCMXCIV_Returns1994()
+    public static void Main1()
     {
-        // Arrange
         Program solution = new Program();
-        string input = "MCMXCIV";
-        
-        // Act
-        int result = solution.RomanToInt(input);
-        
-        // Assert
-        Assert.AreEqual(1994, result); // Correct assertion
+
+        // Example 1: III = 3
+        Console.WriteLine($"III = {solution.RomanToInt("III")}");
+
+        // Example 2: LVIII = 58
+        Console.WriteLine($"LVIII = {solution.RomanToInt("LVIII")}");
+
+        // Example 3: MCMXCIV = 1994
+        Console.WriteLine($"MCMXCIV = {solution.RomanToInt("MCMXCIV")}");
     }
+
 }
+
+
